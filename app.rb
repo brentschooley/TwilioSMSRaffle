@@ -4,14 +4,10 @@ require 'sinatra/run-later'
 require 'rest-firebase'
 require 'pp'
 
-firebase_url = ENV['RAFFLE_FIREBASE_URL']
-firebase_secret = ENV['RAFFLE_FIREBASE_SECRET']
-twilio_account_sid = ENV['TWILIO_ACCOUNT_SID']
-twilio_auth_token = ENV['TWILIO_AUTH_TOKEN']
-event_programming_language = ENV['RAFFLE_PROGRAMMING_LANGUAGE']
-notification_tutorial_link = ENV['RAFFLE_NOTIFICATION_TUTORIAL_LINK']
-twitter_url = ENV['TWITTER_URL']
-sms_code_gif = ENV['SMS_CODE_GIF']
+before do
+  @firebase_url = ENV['RAFFLE_FIREBASE_URL']
+  @firebase_secret = ENV['RAFFLE_FIREBASE_SECRET']
+end
 
 post '/incoming_message' do
   content_type 'text/xml'
@@ -35,7 +31,7 @@ post '/incoming_message' do
     return response.to_xml
   end
 
-  f = RestFirebase.new :site => firebase_url, :secret => firebase_secret
+  f = RestFirebase.new :site => @firebase_url, :secret => @firebase_secret
 
   entry = f.get("entries/#{from}")
 
@@ -58,12 +54,19 @@ post '/incoming_message' do
   f.put("entries/#{from}", body)
 
   run_later do
+    twilio_account_sid = ENV['TWILIO_ACCOUNT_SID']
+    twilio_auth_token = ENV['TWILIO_AUTH_TOKEN']
+    sms_code_gif = ENV['SMS_CODE_GIF']
+    event_programming_language = ENV['RAFFLE_PROGRAMMING_LANGUAGE']
+    notification_tutorial_link = ENV['RAFFLE_NOTIFICATION_TUTORIAL_LINK']
+    twitter_url = ENV['TWITTER_URL']
+
     client = Twilio::REST::Client.new twilio_account_sid, twilio_auth_token
     client.messages.create(
       to: from,
       from: params['To'],
-      body: "Open this GIF to see how to respond to and send SMS using Twilio with #{event_programming_language}. Get this code and learn more at #{notification_tutorial_link}. If you need help, find me on Twitter (#{TWITTER_URL}).",
-      media_url: ENV['SMS_CODE_GIF']
+      body: "Open this GIF to see how to respond to and send SMS using Twilio with #{event_programming_language}. Get this code and learn more at #{notification_tutorial_link}. If you need help, find me on Twitter (#{twitter_url}).",
+      media_url: sms_code_gif
     )
   end
 
@@ -75,7 +78,7 @@ post '/incoming_message' do
 end
 
 get '/pick_winner' do
-  f = RestFirebase.new :site => firebase_url, :secret => firebase_secret
+  f = RestFirebase.new :site => @firebase_url, :secret => @firebase_secret
   entries = f.get('entries')
   winner = entries.to_a.sample
   code = "<%= winner[1] %>"
