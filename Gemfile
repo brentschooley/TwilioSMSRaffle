@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+gem 'sinatra'
+gem 'sinatra-run-later'
+gem 'twilio-ruby'
+gem 'rest-firebase'
