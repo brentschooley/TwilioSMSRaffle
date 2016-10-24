@@ -11,6 +11,7 @@ GEM
     multi_json (1.11.2)
     promise_pool (0.9.0)
       timers (>= 4.0.1)
+    puma (3.6.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -40,10 +41,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  puma
   rest-firebase
   sinatra
   sinatra-run-later
   twilio-ruby
 
+RUBY VERSION
+   ruby 2.3.1p112
+
 BUNDLED WITH
-   1.10.5
+   1.12.5
