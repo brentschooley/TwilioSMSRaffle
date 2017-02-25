@@ -85,3 +85,12 @@ get '/pick_winner' do
   f.delete("entries/#{winner[0].strip}")
   erb code, :locals => {:winner => winner}
 end
+
+get '/pick_winner_nodelete' do
+  f = RestFirebase.new :site => @firebase_url, :secret => @firebase_secret
+  entries = f.get('entries')
+  winner = entries.to_a.sample
+  code = "<%= winner[1] %>"
+  # f.delete("entries/#{winner[0].strip}")
+  erb code, :locals => {:winner => winner}
+end
