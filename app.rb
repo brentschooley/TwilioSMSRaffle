@@ -65,7 +65,7 @@ post '/incoming_message' do
     client.messages.create(
       to: from,
       from: params['To'],
-      body: "Open this GIF to see how to respond to and send SMS using Twilio with #{event_programming_language}. Get this code and learn more at #{notification_tutorial_link}. If you need help, find me on Twitter (#{twitter_url}).",
+      body: "Open this GIF to see how to respond to and send SMS using Twilio with #{event_programming_language}. Get this code and learn more at #{notification_tutorial_link}. If you need help, find me on Twitter (#{twitter_url}). Again, the promo code for $25 when you upgrade your Twilio account is PHILLYCC2017.",
       media_url: sms_code_gif
     )
   end
