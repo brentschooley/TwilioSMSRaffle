@@ -72,7 +72,7 @@ post '/incoming_message' do
 
   Twilio::TwiML::Response.new do |r|
     r.Message do |m|
-      m.Body "Thanks for entering the raffle #{body}! This raffle is powered by Twilio. In a moment I'll send you a GIF that shows you how it works."
+      m.Body "Thanks for entering the raffle #{body}! This raffle is powered by Twilio. Sign up at https://twilio.com/try-twilio and use promo code PHILLYCC2017 for $25 credit when you upgrade. In a moment I'll send you a GIF that shows you how Twilio works."
     end
   end.to_xml
 end
