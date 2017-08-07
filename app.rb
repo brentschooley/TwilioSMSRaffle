@@ -60,12 +60,13 @@ post '/incoming_message' do
     event_programming_language = ENV['RAFFLE_PROGRAMMING_LANGUAGE']
     notification_tutorial_link = ENV['RAFFLE_NOTIFICATION_TUTORIAL_LINK']
     twitter_url = ENV['TWITTER_URL']
+    promo_code = ENV['RAFFLE_PROMO_CODE']
 
     client = Twilio::REST::Client.new twilio_account_sid, twilio_auth_token
     client.messages.create(
       to: from,
       from: params['To'],
-      body: "Open this GIF to see how to respond to and send SMS using Twilio with #{event_programming_language}. Get this code and learn more at #{notification_tutorial_link}. If you need help, find me on Twitter (#{twitter_url}). Again, the promo code for $25 when you upgrade your Twilio account is PHILLYCC2017.",
+      body: "Open this GIF to see how to respond to and send SMS using Twilio with #{event_programming_language}. Get this code and learn more at #{notification_tutorial_link}. If you need help, find me on Twitter (#{twitter_url}). Again, the promo code for $25 when you upgrade your Twilio account is #{promo_code}.",
       media_url: sms_code_gif
     )
   end
